@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
 
     socketId : {
         type : String, 
-        required : true
+      //  required : true
     }
 },  { timestamps: true })
 
