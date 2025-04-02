@@ -1,8 +1,9 @@
 import express from 'express';
+import { authUser } from '../middlewares/authMiddleware.js';
 
 //const {body} = require("experss-validator");
 import {body} from 'express-validator'
-import {registerUser, loginUser} from '../controllers/userController.js'
+import {registerUser, loginUser, getUserProfile} from '../controllers/userController.js'
 
 const router = express.Router();
 router.post('/register', [
@@ -21,5 +22,7 @@ router.post('/login', [
     body('password').isLength({min:6}).withMessage('Password must be 6')
 ], loginUser);
 
+
+router.get('/profile', authUser,getUserProfile);
 
 export default router;

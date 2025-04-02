@@ -58,5 +58,10 @@ export const loginUser = async (req, res, next)=>{
   return res.status(200).json({user, token});
 
 }
+
+export const getUserProfile = async(req, res, next) =>{
+  res.status(200).json(req.user)
+}
+
 // const userController = { registerUser, loginUser };
 // export default userController;
