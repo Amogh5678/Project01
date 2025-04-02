@@ -2,7 +2,7 @@ import express from 'express';
 
 //const {body} = require("experss-validator");
 import {body} from 'express-validator'
-import userController from '../controllers/userController.js'
+import {registerUser, loginUser} from '../controllers/userController.js'
 
 const router = express.Router();
 router.post('/register', [
@@ -14,7 +14,12 @@ router.post('/register', [
     //express validator is just validating and where to validate it is on userController
     //express validator is just checking what is wrong if something is wrong need to perform some actions this action is done in userCOntroller
     //so we require this validation in controller
-], userController.registerUser)
+], registerUser);
+
+router.post('/login', [
+    body('email').isEmail().withMessage('Invalid Email'),
+    body('password').isLength({min:6}).withMessage('Password must be 6')
+], loginUser);
 
 
 export default router;

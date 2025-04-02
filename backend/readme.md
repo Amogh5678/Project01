@@ -43,3 +43,36 @@ Registers a new user. Validates input and returns an authentication token along 
         ]
     }
     ```
+
+## API Endpoints
+
+### POST /users/login
+
+- **Description:** Logs in an existing user.
+- **Request Body:**
+  - `email`: string (must be a valid email)
+  - `password`: string (minimum length of 6)
+- **Responses:**
+  - **200 OK:** Returns an object with `user` details and an authentication `token`.
+  - **400 Bad Request:** Returns validation errors if the request body is invalid.
+  - **401 Unauthorized:** Returned when credentials are incorrect or the user does not exist.
+
+**Example:**
+
+_Request:_
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+_Response (200 OK):_
+```json
+{
+  "user": {
+    // ...existing user fields...
+  },
+  "token": "jwt_token_example"
+}
+```

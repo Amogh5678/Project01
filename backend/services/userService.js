@@ -1,7 +1,7 @@
 import userModel from '../models/userModel.js'
 
 //this function has one job only it creates the user
-export const createUser = async({
+export const createUser = async({ //when you export like this you have to use { } while importing anywhere
     email, firstname, lastname, password
 })=>{
     if(!email || !firstname || !password)
@@ -9,7 +9,7 @@ export const createUser = async({
     throw new Error("All fields are required");
         }
 
-     const user = userModel.create({
+     const user = await userModel.create({
             fullname:{
                 firstname,
                 lastname,
@@ -22,5 +22,5 @@ export const createUser = async({
 }
 
 //export default userService;
-const userService = { createUser };
-export default userService;
+// const userService = { createUser };
+// export default userService;
