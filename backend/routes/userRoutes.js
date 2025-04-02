@@ -3,7 +3,7 @@ import { authUser } from '../middlewares/authMiddleware.js';
 
 //const {body} = require("experss-validator");
 import {body} from 'express-validator'
-import {registerUser, loginUser, getUserProfile} from '../controllers/userController.js'
+import {registerUser, loginUser, getUserProfile, logoutUser} from '../controllers/userController.js'
 
 const router = express.Router();
 router.post('/register', [
@@ -24,5 +24,7 @@ router.post('/login', [
 
 
 router.get('/profile', authUser,getUserProfile);
+
+router.get('/logout',authUser, logoutUser);
 
 export default router;
