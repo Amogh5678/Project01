@@ -70,7 +70,8 @@ export const loginUser = async (req, res, next)=>{
 }
 
 export const getUserProfile = async(req, res, next) =>{
-  res.status(200).json(req.user)
+  console.log(req.user)
+ return res.status(200).json(req.user)
 }
 
 export const logoutUser = async(req, res, next)=>{
@@ -83,5 +84,8 @@ export const logoutUser = async(req, res, next)=>{
   res.status(200).json({message:"logged out"})
 
 }
+
+
+
 // const userController = { registerUser, loginUser };
 // export default userController;
