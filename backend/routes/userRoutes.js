@@ -10,7 +10,7 @@ router.post('/register', [
 
     body('email').isEmail().withMessage('Invalid Email'),
     body('fullname.firstname').isLength({min:3}).withMessage('first nae=me must be 3 chars'),
-    body('password').isLength({min:6}).withMessage('Password must be 5')
+    body('password').isLength({min:3}).withMessage('Password must be 5')
 
     //express validator is just validating and where to validate it is on userController
     //express validator is just checking what is wrong if something is wrong need to perform some actions this action is done in userCOntroller
@@ -19,7 +19,7 @@ router.post('/register', [
 
 router.post('/login', [
     body('email').isEmail().withMessage('Invalid Email'),
-    body('password').isLength({min:6}).withMessage('Password must be 6')
+    body('password').isLength({min:3}).withMessage('Password must be 6')
 ], loginUser);
 
 

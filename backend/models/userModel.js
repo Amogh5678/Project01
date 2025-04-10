@@ -9,13 +9,13 @@ const userSchema = new mongoose.Schema({
         firstname :{
             type : String, 
             required : true,
-            minlength : [5, 'firstname must be atleast 5 characters'],
+            minlength : [3, 'firstname must be atleast 5 characters'],
         },
 
         lastname :{
             type : String, 
             required : true,
-            minlength : [5, 'lastname must be atleast 5 characters'],
+            minlength : [3, 'lastname must be atleast 5 characters'],
         },
 
     },
