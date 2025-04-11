@@ -33,7 +33,7 @@ export const authUser = async (req, res, next )=>{
         return next();
     }
     catch{
-            return res.status(401).json({message: 'unauthorized error caught'});
+            return res.status(401).json({message: 'unauthorized error caught in authUser'});
     }
 }
 

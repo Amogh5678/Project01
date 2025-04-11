@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js';
 import captainRoutes from './routes/captainRoutes.js';
 import mapRoutes from './routes/mapRoutes.js';
+import rideRoutes from './routes/rideRoutes.js'
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) =>{
 app.use('/users', userRoutes);
 app.use('/captains', captainRoutes);
 app.use('/maps', mapRoutes);
+app.use('/rides', rideRoutes);
 
 
 export default app;

@@ -1,6 +1,6 @@
 import {getAddressCoordinates} from '../services/mapsService.js'
 import { validationResult } from 'express-validator';
-import {fetchDistance} from '../services/mapsService.js'
+import {fetchDistance, getAutoCompleteSuggestions} from '../services/mapsService.js'
 
 
 export const getCoordinates = async (req, res, next)=>{
@@ -37,6 +37,25 @@ export const getDistanceTime = async (req, res, next) => {
 
         res.status(200).json(distanceTime);
 
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+export const getCompletionSuggestions = async (req, res, next) => {
+
+    try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { input } = req.query;
+
+        const suggestions = await getAutoCompleteSuggestions(input);
+
+        res.status(200).json(suggestions);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Internal server error' });

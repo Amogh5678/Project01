@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { validationResult } from 'express-validator';
 
 export const getAddressCoordinates = async (address) => {
     const apiKey = process.env.GOOGLE_MAPS_API;
@@ -51,4 +52,26 @@ export const fetchDistance = async (origin, destination) => {
         throw err;
     }
 }
-//export default fetchDistance;
+
+
+export const getAutoCompleteSuggestions = async (input) => {
+    if (!input) {
+        throw new Error('query is required');
+    }
+
+    const apiKey = process.env.GOOGLE_MAPS_API;
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
+
+    try {
+        const response = await axios.get(url);
+        if (response.data.status === 'OK') {
+            return response.data.predictions.map(prediction => prediction.description).filter(value => value);
+        } else {
+            throw new Error('Unable to fetch suggestions');
+        }
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+
+}
