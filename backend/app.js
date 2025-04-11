@@ -3,8 +3,9 @@ import connectDb from './db/db.js';
 import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
-import userRoutes from './routes/userRoutes.js'
-import captainRoutes from './routes/captainRoutes.js'
+import userRoutes from './routes/userRoutes.js';
+import captainRoutes from './routes/captainRoutes.js';
+import mapRoutes from './routes/mapRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -23,6 +24,7 @@ app.get('/', (req, res) =>{
 
 app.use('/users', userRoutes);
 app.use('/captains', captainRoutes);
+app.use('/maps', mapRoutes);
 
 
 export default app;
