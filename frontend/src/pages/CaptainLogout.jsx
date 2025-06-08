@@ -23,4 +23,4 @@ export const CaptainLogout = () => {
     )
 }
 
-export default CaptainLogout;
+export default CaptainLogout

@@ -1,4 +1,5 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose');
+
 
 const rideSchema = new mongoose.Schema({
     user: {
@@ -54,5 +55,4 @@ const rideSchema = new mongoose.Schema({
     },
 })
 
-const rideModel = mongoose.model('ride', rideSchema);
-export default rideModel;
+module.exports = mongoose.model('ride', rideSchema);

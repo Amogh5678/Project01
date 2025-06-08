@@ -1,8 +1,7 @@
-import axios from 'axios';
-import { validationResult } from 'express-validator';
-import captainModel from '../models/captainModel.js';
+const axios = require('axios');
+const captainModel = require('../models/captain.model');
 
-export const getAddressCoordinates = async (address) => {
+module.exports.getAddressCoordinate = async (address) => {
     const apiKey = process.env.GOOGLE_MAPS_API;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
@@ -22,9 +21,8 @@ export const getAddressCoordinates = async (address) => {
         throw error;
     }
 }
-//export default getAddressCoordinates;
 
-export const fetchDistance = async (origin, destination) => {
+module.exports.getDistanceTime = async (origin, destination) => {
     if (!origin || !destination) {
         throw new Error('Origin and destination are required');
     }
@@ -54,9 +52,7 @@ export const fetchDistance = async (origin, destination) => {
     }
 }
 
-
-
-export const getAutoCompleteSuggestions = async (input) => {
+module.exports.getAutoCompleteSuggestions = async (input) => {
     if (!input) {
         throw new Error('query is required');
     }
@@ -75,19 +71,22 @@ export const getAutoCompleteSuggestions = async (input) => {
         console.error(err);
         throw err;
     }
-
 }
 
-export const getCaptainsInTheRadius = async(ltd, lng, radius) => {
-    
+module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+
+    // radius in km
+
+
     const captains = await captainModel.find({
         location: {
             $geoWithin: {
-                $centerSphere: [
-                    [ lng, ltd ],
-                    radius / 6371
-                ]
+                $centerSphere: [ [ ltd, lng ], radius / 6371 ]
             }
         }
-    })
+    });
+
+    return captains;
+
+
 }

@@ -1,13 +1,15 @@
-import rideModel from "../models/ridesModel.js";
-import { fetchDistance } from "./mapsService.js";
-import crypto from 'crypto'
+const rideModel = require('../models/ride.model');
+const mapService = require('./maps.service');
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
-export const getFareService = async (pickup, destination)=>{
+async function getFare(pickup, destination) {
+
     if (!pickup || !destination) {
         throw new Error('Pickup and destination are required');
     }
 
-    const distanceData = await fetchDistance(pickup, destination);
+    const distanceTime = await mapService.getDistanceTime(pickup, destination);
 
     const baseFare = {
         auto: 30,
@@ -27,19 +29,22 @@ export const getFareService = async (pickup, destination)=>{
         moto: 1.5
     };
 
-    if (!distanceData || !distanceData.distance || !distanceData.duration) {
-        throw new Error('Invalid distance data received');
-    }
+    console.log(distanceTime);
 
     const fare = {
-        auto: Math.round(baseFare.auto + ((distanceData.distance.value / 1000) * perKmRate.auto) + ((distanceData.duration.value / 60) * perMinuteRate.auto)),
-        car: Math.round(baseFare.car + ((distanceData.distance.value / 1000) * perKmRate.car) + ((distanceData.duration.value / 60) * perMinuteRate.car)),
-        moto: Math.round(baseFare.moto + ((distanceData.distance.value / 1000) * perKmRate.moto) + ((distanceData.duration.value / 60) * perMinuteRate.moto))
+        auto: Math.round(baseFare.auto + ((distanceTime.distance.value / 1000) * perKmRate.auto) + ((distanceTime.duration.value / 60) * perMinuteRate.auto)),
+        car: Math.round(baseFare.car + ((distanceTime.distance.value / 1000) * perKmRate.car) + ((distanceTime.duration.value / 60) * perMinuteRate.car)),
+        moto: Math.round(baseFare.moto + ((distanceTime.distance.value / 1000) * perKmRate.moto) + ((distanceTime.duration.value / 60) * perMinuteRate.moto))
     };
 
-
     return fare;
+
+
 }
+
+module.exports.getFare = getFare;
+
+
 function getOtp(num) {
     function generateOtp(num) {
         const otp = crypto.randomInt(Math.pow(10, num - 1), Math.pow(10, num)).toString();
@@ -48,14 +53,15 @@ function getOtp(num) {
     return generateOtp(num);
 }
 
-export const createRide = async({
+
+module.exports.createRide = async ({
     user, pickup, destination, vehicleType
 }) => {
     if (!user || !pickup || !destination || !vehicleType) {
         throw new Error('All fields are required');
     }
 
-    const fare = await getFareService(pickup, destination);
+    const fare = await getFare(pickup, destination);
 
     console.log(fare);
 

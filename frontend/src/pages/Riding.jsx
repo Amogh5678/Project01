@@ -47,4 +47,4 @@ const Riding = () => {
     )
 }
 
-export default Riding;
+export default Riding
