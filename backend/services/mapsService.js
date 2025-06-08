@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { validationResult } from 'express-validator';
+import captainModel from '../models/captainModel.js';
 
 export const getAddressCoordinates = async (address) => {
     const apiKey = process.env.GOOGLE_MAPS_API;
@@ -54,6 +55,7 @@ export const fetchDistance = async (origin, destination) => {
 }
 
 
+
 export const getAutoCompleteSuggestions = async (input) => {
     if (!input) {
         throw new Error('query is required');
@@ -74,4 +76,18 @@ export const getAutoCompleteSuggestions = async (input) => {
         throw err;
     }
 
+}
+
+export const getCaptainsInTheRadius = async(ltd, lng, radius) => {
+    
+    const captains = await captainModel.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [
+                    [ lng, ltd ],
+                    radius / 6371
+                ]
+            }
+        }
+    })
 }

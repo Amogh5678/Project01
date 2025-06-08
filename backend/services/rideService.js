@@ -1,13 +1,13 @@
 import rideModel from "../models/ridesModel.js";
-import { fetchDistance} from "./mapsService.js";
+import { fetchDistance } from "./mapsService.js";
 import crypto from 'crypto'
-async function getFare(pickup, destination){
-    if(!pickup || !destination)
-    {
-        throw new Error("Pickup and destination are necessary")
+
+export const getFareService = async (pickup, destination)=>{
+    if (!pickup || !destination) {
+        throw new Error('Pickup and destination are required');
     }
 
-    const distanceTime = await fetchDistance(pickup, destination);
+    const distanceData = await fetchDistance(pickup, destination);
 
     const baseFare = {
         auto: 30,
@@ -26,13 +26,17 @@ async function getFare(pickup, destination){
         car: 3,
         moto: 1.5
     };
-    console.log(distanceTime);
+
+    if (!distanceData || !distanceData.distance || !distanceData.duration) {
+        throw new Error('Invalid distance data received');
+    }
 
     const fare = {
-        auto: baseFare.auto + ((distanceTime.distance.value / 1000) * perKmRate.auto) + ((distanceTime.duration.value / 60) * perMinuteRate.auto),
-        car: baseFare.car + ((distanceTime.distance.value / 1000) * perKmRate.car) + ((distanceTime.duration.value / 60) * perMinuteRate.car),
-        moto: baseFare.moto + ((distanceTime.distance.value / 1000) * perKmRate.moto) + ((distanceTime.duration.value / 60) * perMinuteRate.moto)
+        auto: Math.round(baseFare.auto + ((distanceData.distance.value / 1000) * perKmRate.auto) + ((distanceData.duration.value / 60) * perMinuteRate.auto)),
+        car: Math.round(baseFare.car + ((distanceData.distance.value / 1000) * perKmRate.car) + ((distanceData.duration.value / 60) * perMinuteRate.car)),
+        moto: Math.round(baseFare.moto + ((distanceData.distance.value / 1000) * perKmRate.moto) + ((distanceData.duration.value / 60) * perMinuteRate.moto))
     };
+
 
     return fare;
 }
@@ -51,7 +55,7 @@ export const createRide = async({
         throw new Error('All fields are required');
     }
 
-    const fare = await getFare(pickup, destination);
+    const fare = await getFareService(pickup, destination);
 
     console.log(fare);
 

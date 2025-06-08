@@ -1,10 +1,15 @@
 import http from 'http'
 import app from './app.js';
+import { initializeSocket } from './socket.js';
 
-const port = process.env.PORT||3000;
+const port = process.env.PORT || 4000;
 
-const server = http.createServer(app)
+// Create HTTP server
+const httpServer = http.createServer(app);
 
-server.listen(port, ()=>{
-   console.log(`server is listening on port ${port}`);
+// Initialize socket server
+initializeSocket(httpServer);
+
+httpServer.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
 });
