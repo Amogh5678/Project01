@@ -49,7 +49,7 @@ const CaptainHome = () => {
     }, [])
 
     socket.on('new-ride', (data) => {
-        console.log(data)
+
         setRide(data)
         setRidePopupPanel(true)
 
@@ -123,10 +123,12 @@ const CaptainHome = () => {
                 />
             </div>
             <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
-                <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
+                <ConfirmRidePopUp
+                    ride={ride}
+                    setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
             </div>
         </div>
     )
 }
 
-export default CaptainHome;
+export default CaptainHome

@@ -1,9 +1,3 @@
-
-// When a user logs out, their token is added to the blackListToken collection to prevent further use.
-
-// Without this, JWT tokens would remain valid until their expiration, even if the user logged out.
-
-
 const mongoose = require('mongoose');
 
 const blacklistTokenSchema = new mongoose.Schema({

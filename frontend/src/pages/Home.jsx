@@ -11,6 +11,8 @@ import WaitingForDriver from '../components/WaitingForDriver';
 import { SocketContext } from '../context/SocketContext';
 import { useContext } from 'react';
 import { UserDataContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import LiveTracking from '../components/LiveTracking';
 
 const Home = () => {
     const [ pickup, setPickup ] = useState('')
@@ -33,6 +35,8 @@ const Home = () => {
     const [ vehicleType, setVehicleType ] = useState(null)
     const [ ride, setRide ] = useState(null)
 
+    const navigate = useNavigate()
+
     const { socket } = useContext(SocketContext)
     const { user } = useContext(UserDataContext)
 
@@ -41,9 +45,17 @@ const Home = () => {
     }, [ user ])
 
     socket.on('ride-confirmed', ride => {
+
+
         setVehicleFound(false)
         setWaitingForDriver(true)
         setRide(ride)
+    })
+
+    socket.on('ride-started', ride => {
+        console.log("ride")
+        setWaitingForDriver(false)
+        navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
     })
 
 
@@ -165,7 +177,7 @@ const Home = () => {
             }
         })
 
-        console.log(response.data)
+
         setFare(response.data)
 
 
@@ -182,7 +194,7 @@ const Home = () => {
             }
         })
 
-        console.log(response.data)
+
     }
 
     return (
@@ -190,7 +202,7 @@ const Home = () => {
             <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
             <div className='h-screen w-screen'>
                 {/* image for temporary use  */}
-                <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
+                <LiveTracking />
             </div>
             <div className=' flex flex-col justify-end h-screen absolute top-0 w-full'>
                 <div className='h-[30%] p-6 bg-white relative'>
