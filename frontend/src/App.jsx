@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Start from './pages/Start.jsx'
 import UserLogin from './pages/UserLogin.jsx'
-import UserSignup from './pages/UserSignup.jsx'
+import UserSignUp from './pages/UserSignUp.jsx'
 import Captainlogin from './pages/Captainlogin.jsx'
-import CaptainSignup from './pages/CaptainSignup.jsx'
+import CaptainSignUp from './pages/CaptainSignUp.jsx'
 import Home from './pages/Home.jsx'
 import UserProtectWrapper from './pages/UserProtectWrapper.jsx'
 import UserLogout from './pages/UserLogout.jsx'
@@ -25,9 +25,9 @@ const App = () => {
         <Route path='/riding' element={<Riding />} />
         <Route path='/captain-riding' element={<CaptainRiding />} />
 
-        <Route path='/signup' element={<UserSignup />} />
+        <Route path='/signup' element={<UserSignUp />} />
         <Route path='/captain-login' element={<Captainlogin />} />
-        <Route path='/captain-signup' element={<CaptainSignup />} />
+        <Route path='/captain-signup' element={<CaptainSignUp />} />
         <Route path='/home'
           element={
             <UserProtectWrapper>
