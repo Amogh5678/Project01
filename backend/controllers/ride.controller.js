@@ -1,8 +1,8 @@
-const rideService = require('../services/ride.service');
-const { validationResult } = require('express-validator');
-const mapService = require('../services/maps.service');
+const rideService = require('../services/ride.service.js');
+const { validationResult } = require('express-validator.js');
+const mapService = require('../services/maps.service.js');
 const { sendMessageToSocketId } = require('../socket');
-const rideModel = require('../models/ride.model');
+const rideModel = require('../models/ride.model.js');
 
 
 module.exports.createRide = async (req, res) => {
